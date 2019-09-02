@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+        android:id="@+id/listDocuments"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        app:cardElevation="4dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="false">
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewImage"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                app:cardCornerRadius="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp">
+
+            <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    tools:srcCompat="@tools:sample/avatars[0]"
+                    android:scaleType="fitCenter"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+                android:id="@+id/txtLabelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Título:"
+                android:layout_alignTop="@id/cardViewImage"
+                android:layout_toRightOf="@id/cardViewImage"
+                android:layout_marginLeft="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+        <TextView android:id="@+id/txtTitle"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="título"
+                  android:layout_alignTop="@id/txtLabelTitle"
+                  android:layout_toRightOf="@id/txtLabelTitle"
+                  android:layout_marginLeft="8dp"
+                  android:textSize="16sp"/>
+
+        <TextView android:id="@+id/txtLabelDesc"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Descrição:"
+                  android:layout_below="@id/txtLabelTitle"
+                  android:layout_toRightOf="@id/cardViewImage"
+                  android:layout_marginLeft="8dp"
+                  android:textSize="16sp"
+                  android:layout_marginTop="8dp"
+                  android:textStyle="bold"/>
+
+        <TextView android:id="@+id/txtDesc"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="descrição"
+                  android:layout_below="@id/txtLabelTitle"
+                  android:layout_toRightOf="@id/txtLabelDesc"
+                  android:layout_marginLeft="8dp"
+                  android:textSize="16sp"
+                  android:layout_marginTop="8dp"/>
+
+        <TextView android:id="@+id/txtLabelIURL"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="URL Imagem:"
+                  android:layout_below="@+id/txtLabelDesc"
+                  android:layout_toEndOf="@id/cardViewImage"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginTop="8dp"
+                  android:textSize="16sp"
+                  android:textStyle="bold"/>
+
+        <TextView android:id="@+id/txtURL"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="imageURL"
+                  android:layout_below="@+id/txtLabelDesc"
+                  android:layout_toEndOf="@id/txtLabelIURL"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginTop="8dp"
+                  android:textSize="16sp"/>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+
+
