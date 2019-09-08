@@ -4,4 +4,16 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Desafio (var id: String = "", var title: String = "", var desc : String = "", var imageURL : String = "", var image : Int = 0) : Parcelable
+class Desafio(var id: String, var title: String, var description: String, var imageURL: String) : Parcelable
+{
+    fun getHashMap() : HashMap<String, String>
+    {
+        val result = hashMapOf<String,String>(
+            "titulo" to title,
+            "descricao" to description,
+            "imageURL" to imageURL
+        )
+
+        return  result
+    }
+}
