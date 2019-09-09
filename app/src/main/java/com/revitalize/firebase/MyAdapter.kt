@@ -4,10 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.MenuView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.list_view.view.*
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.list_view.view.*
 import java.util.ArrayList
 
@@ -26,6 +25,10 @@ class MyAdapter(private val myDataset: ArrayList<Desafio>, private val callback:
         holder.desc.text = myDataset[position].description
         holder.imageURL.text = myDataset[position].imageURL
         holder.image.setImageResource(R.drawable.ic_android_black_24dp)
+        if(holder.imageURL.text.isNotBlank() && holder.imageURL.text.isNotEmpty())
+        {
+            GlideApp.with(holder.itemView.context).load(holder.imageURL.text.toString()).fitCenter().into(holder.image)
+        }
         holder.itemView.setOnClickListener {
             callback(position)
         }
