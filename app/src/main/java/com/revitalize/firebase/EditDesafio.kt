@@ -41,7 +41,6 @@ class EditDesafio : AppCompatActivity()
     {
         val isValid: Boolean = verifyInputs()
         val data = Intent()
-        val db = Database()
 
         if (isValid)
         {
@@ -56,9 +55,11 @@ class EditDesafio : AppCompatActivity()
 
             if (connected)
             {
-                val task = Database().addDocument("users",  desafio.id, desafio.getHashMap())
+                val task = Database().addDocument("Desafios",  desafio.id, desafio.getHashMap())
+                progressBar.visibility = View.VISIBLE
 
                 task.addOnCompleteListener { result ->
+                    progressBar.visibility = View.GONE
                     if (result.isSuccessful)
                     {
                         data.putExtra("main_activity", "Desafio atualizado com sucesso!")
@@ -68,7 +69,7 @@ class EditDesafio : AppCompatActivity()
                     }
                     else
                     {
-                        data.putExtra("main_activity", "Houve um erro ao atualizar o cadastro!")
+                        data.putExtra("main_activity", "Houve um erro ao atualizar o desafio!")
                         setResult(Activity.RESULT_CANCELED, data)
                         finish()
                     }
@@ -76,14 +77,43 @@ class EditDesafio : AppCompatActivity()
             }
             else
             {
-                data.putExtra("main_activity", "Sem conexão coma internet!")
+                data.putExtra("main_activity", "Sem conexão com a internet!")
             }
         }
     }
 
     fun deleteDesafio(desafio: Desafio)
     {
+        val data = Intent()
+        val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.activeNetworkInfo
+        val connected = netInfo != null && netInfo.isConnected
 
+        if (connected)
+        {
+            val task = Database().delete("Desafios",  desafio.id)
+            progressBar.visibility = View.VISIBLE
+
+            task?.addOnCompleteListener { result ->
+                progressBar.visibility = View.GONE
+                if (result.isSuccessful)
+                {
+                    data.putExtra("main_activity", "Desafio excluído com sucesso!")
+                    setResult(Activity.RESULT_OK, data)
+                    finish()
+                }
+                else
+                {
+                    data.putExtra("main_activity", "Houve um erro ao deletar o desafio!")
+                    setResult(Activity.RESULT_CANCELED, data)
+                    finish()
+                }
+            }
+        }
+        else
+        {
+            data.putExtra("main_activity", "Sem conexão coma internet!")
+        }
     }
 
     private fun verifyInputs(): Boolean {

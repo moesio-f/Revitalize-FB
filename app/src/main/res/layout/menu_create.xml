@@ -6,27 +6,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        tools:context=".EditDesafio">
+        tools:context=".CreateDesafio">
 
     <Button
             android:id="@+id/apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Salvar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/delete"
-            app:layout_constraintTop_toBottomOf="@+id/txtInputDesc" />
-
-    <Button
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Excluir"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/apply"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInputDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/txtInputDesc"
+            app:layout_constraintVertical_bias="0.16000003" />
 
     <ImageView
             android:id="@+id/back"
@@ -34,12 +26,29 @@
             android:layout_height="49dp"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/delete"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/delete"
-            app:layout_constraintVertical_bias="0.494"
+            app:layout_constraintTop_toBottomOf="@+id/apply"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="?attr/actionModeCloseDrawable" />
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.060000002">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ID da Atividade" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInputDesc"
@@ -50,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInputTitle"
-            app:layout_constraintVertical_bias="0.19999999">
+            app:layout_constraintVertical_bias="0.18">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtEditDesc"
@@ -66,8 +75,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19">
+            app:layout_constraintTop_toBottomOf="@+id/txtInputID"
+            app:layout_constraintVertical_bias="0.110000014">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtEditTitle"

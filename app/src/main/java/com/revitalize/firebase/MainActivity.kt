@@ -6,13 +6,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.menu_edit.*
 
 class MainActivity : AppCompatActivity()
 {
@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity()
     private lateinit var listDocuments: ArrayList<Desafio>
     private var database = Database()
     private var positionDesafio = -1
-    private val ACTIVITY_IDENTIFICATOR = 1
+    private val ACTIVITY_IDENTIFICATOR_EDIT = 1
+    private val ACTIVITY_IDENTIFICATOR_CREATE = 0
     private val ACTIVITY_NAME = "main_activity"
 
 
@@ -32,31 +33,40 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        setDocumentList()
+        setDocumentList(null)
 
         fab.setOnClickListener {
+            val intent = Intent(this, CreateDesafio::class.java)
+            startActivityForResult(intent, ACTIVITY_IDENTIFICATOR_CREATE)
         }
 
     }
 
-    fun setDocumentList()
+    fun setDocumentList(toast: Toast?)
     {
+        progressBarMain.visibility = View.VISIBLE
         val task = database.getCollection("Desafios")
-        task?.addOnCompleteListener {result ->
-            if(result.isSuccessful)
-            {
+        task?.addOnCompleteListener { result ->
+            progressBarMain.visibility = View.GONE
+            if (result.isSuccessful) {
                 listDocuments = arrayListOf()
-                result.result?.forEach {document ->
-                    var desafio = Desafio(document.id, document.data["titulo"].toString(), document.data["descricao"].toString(), document.data["imageURL"].toString())
+                result.result?.forEach { document ->
+                    var desafio = Desafio(
+                        document.id,
+                        document.data["titulo"].toString(),
+                        document.data["descricao"].toString(),
+                        document.data["imageURL"].toString()
+                    )
                     listDocuments.add(desafio)
                 }
-                viewAdapter = MyAdapter(listDocuments, ::editDesafio)
-                viewManager = LinearLayoutManager(this)
-                recyclerView = rvDesafios.apply {
+                    viewAdapter = MyAdapter(listDocuments, ::editDesafio)
+                    viewManager = LinearLayoutManager(this)
+                    recyclerView = rvDesafios.apply {
                     setHasFixedSize(true)
                     layoutManager = viewManager
                     adapter = viewAdapter
-                }
+                    }
+                    toast?.show()
             }
         }
     }
@@ -66,45 +76,63 @@ class MainActivity : AppCompatActivity()
         val intent = Intent(this, EditDesafio::class.java)
         intent.putExtra("desafio", listDocuments[position])
         positionDesafio = position
-        startActivityForResult(intent, ACTIVITY_IDENTIFICATOR)
+        startActivityForResult(intent, ACTIVITY_IDENTIFICATOR_EDIT)
     }
 
     override fun onActivityResult(requestCode :Int, resultCode :Int, data :Intent? )
     {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ACTIVITY_IDENTIFICATOR)
+        if (requestCode == ACTIVITY_IDENTIFICATOR_EDIT)
         {
 
             if (resultCode == Activity.RESULT_OK)
             {
                 Toast.makeText(baseContext, data?.getStringExtra(ACTIVITY_NAME), Toast.LENGTH_LONG).show()
                 listDocuments[positionDesafio] = data!!.getParcelableExtra("desafio")
-                viewAdapter.notifyItemChanged(positionDesafio)
+                updateDesafios(null)
             }
             else if (resultCode == Activity.RESULT_CANCELED && data != null)
             {
+                Toast.makeText(baseContext, data.getStringExtra(ACTIVITY_NAME), Toast.LENGTH_LONG).show()
+            }
+        }
+        else if(requestCode == ACTIVITY_IDENTIFICATOR_CREATE)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
                 Toast.makeText(baseContext, data?.getStringExtra(ACTIVITY_NAME), Toast.LENGTH_LONG).show()
+                updateDesafios(null)
+            }
+            else if (resultCode == Activity.RESULT_CANCELED && data != null)
+            {
+                Toast.makeText(baseContext, data.getStringExtra(ACTIVITY_NAME), Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    private fun updateDesafios(toast: Toast?)
+    {
+        listDocuments.clear()
+        viewAdapter.notifyDataSetChanged()
+        setDocumentList(toast)
+        viewAdapter.notifyDataSetChanged()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId)
+        if(item.itemId == R.id.action_sync)
         {
-            R.id.action_sync -> true
-            else -> super.onOptionsItemSelected(item)
+            updateDesafios(Toast.makeText(baseContext, "Desafios atualizados com sucesso!", Toast.LENGTH_LONG))
+            return true
         }
+
+        return  false
     }
 
 }
