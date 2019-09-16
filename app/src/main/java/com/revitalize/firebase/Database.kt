@@ -1,10 +1,14 @@
 package com.revitalize.firebase
 
+import android.graphics.Bitmap
+import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.net.URI
 
 class Database
 {
@@ -24,12 +28,33 @@ class Database
         return result
     }
 
+    fun addImage(uri: Uri, id: String): Task<*>
+    {
+        val imgRef = sr.reference.child("Desafios").child("$id.jpg")
+        return  imgRef.putFile(uri)
+    }
+
+    fun deleteImage(id: String): Task<*>
+    {
+        val imgRef = sr.reference.child("Desafios").child("$id.jpg")
+        return imgRef.delete()
+    }
+
+    fun getDownloadULR(imgPath: StorageReference): Task<*>
+    {
+        return imgPath.downloadUrl
+    }
+
+    fun getImagePath(id: String): StorageReference
+    {
+        return sr.reference.child("Desafios").child("$id.jpg")
+    }
+
     fun getDocument(collection: String, document : String): Task<DocumentSnapshot>?
     {
         val task = db.collection(collection).document(document).get()
         return task
     }
-
 
     fun getCollection(collection: String): Task<QuerySnapshot>?
     {
@@ -42,8 +67,6 @@ class Database
         val task = db.collection(collection).document(document).delete()
         return task
     }
-
-
 
 }
 

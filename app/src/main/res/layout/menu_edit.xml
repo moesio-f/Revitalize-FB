@@ -8,6 +8,21 @@
         android:layout_marginBottom="40dp"
         tools:context=".EditDesafio">
 
+    <ImageView
+            android:id="@+id/desafioIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012"
+            app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
+            tools:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
+
     <Button
             android:id="@+id/apply"
             android:layout_width="wrap_content"
@@ -66,8 +81,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.19">
+            app:layout_constraintTop_toBottomOf="@+id/desafioIcon"
+            app:layout_constraintVertical_bias="0.13">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtEditTitle"
